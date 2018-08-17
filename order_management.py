@@ -13,6 +13,48 @@ shop = shopify.Shop.current()
 app = Flask(__name__)
 
 
+def create_order(first_name, last_name, phone, town, address1, user_id):
+    order = shopify.Order()
+
+    shipping_address = shopify.ShippingAddress()
+    shipping_address.first_name = first_name
+    shipping_address.last_name = last_name
+    shipping_address.city = town
+    shipping_address.address1 = address1
+    shipping_address.phone = phone
+    shipping_address.country = "Ukraine"
+
+    billing_address = shopify.BillingAddress()
+    billing_address.first_name = first_name
+    billing_address.last_name = last_name
+    billing_address.city = town
+    billing_address.address1 = address1
+    billing_address.phone = phone
+    billing_address.country = "Ukraine"
+
+    customer = shopify.Customer.find(user_id)
+    customer.first_name = first_name
+    customer.last_name = last_name
+
+    item = shopify.LineItem()
+    item.variant_id = 12438658154559;
+    item.quantity = 1
+    d = {'line_items': [], 'shipping_address': shipping_address, 'billing_address': billing_address, 'customer' : customer}
+    d['line_items'].append(item)
+    d['gateway'] = "Оплата при отриманні"
+    d['payment_gateway_names'] = ["Оплата при отриманні"]
+
+    #d["user_id"] = 686081769535
+    order.email = customer.email
+    order.fulfillment_status = 'fulfilled'
+    order.send_receipt = True
+    order.send_fulfillment_receipt = True
+    order.attributes = d
+
+    order.save()
+    return order.order_status_url
+
+
 @app.route('/')
 def hello_world():
     return ""
@@ -20,8 +62,9 @@ def hello_world():
 @app.route('/orders', methods=['POST'])
 def orders_manage():
     if request.method == 'POST':
-        print(request.form)
-        return redirect("http://www.google.com", code=302)
+       
+        #return redirect("http://www.google.com", code=302)
+        return request.form['towns']
     else:
         return "asdasd"
     return "v"
