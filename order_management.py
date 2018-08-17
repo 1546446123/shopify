@@ -12,7 +12,7 @@ def hello_world():
 def orders_manage():
     if request.method == 'POST':
         print(request.form)
-        return "a"
+        return request.form
     else:
         return "asdasd"
     return "v"
