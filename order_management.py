@@ -12,10 +12,10 @@ def hello_world():
 def orders_manage():
     if request.method == 'POST':
         print(request.form)
-        return
+        return "a"
     else:
         return "asdasd"
-    return ""
+    return "v"
 
 if __name__ == '__main__':
     app.run()
