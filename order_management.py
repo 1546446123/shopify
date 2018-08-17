@@ -14,7 +14,7 @@ def orders_manage():
         print(request.form)
         return
     else:
-        return
+        return "asdasd"
     return ""
 
 if __name__ == '__main__':
