@@ -33,22 +33,23 @@ def create_order(first_name, last_name, phone, town, address1, user_id):
     billing_address.country = "Ukraine"
 
     customer = shopify.Customer.find(user_id)
-    customer.first_name = first_name
-    customer.last_name = last_name
 
     item = shopify.LineItem()
-    item.variant_id = 12438658154559;
+    item.variant_id = 12438658154559
     item.quantity = 1
-    d = {'line_items': [], 'shipping_address': shipping_address, 'billing_address': billing_address, 'customer' : customer}
+    d = {'line_items': [], 'shipping_address': shipping_address, 'billing_address': billing_address,
+         'customer': customer}
     d['line_items'].append(item)
     d['gateway'] = "Оплата при отриманні"
     d['payment_gateway_names'] = ["Оплата при отриманні"]
+    d.contact_email = customer.email
 
     #d["user_id"] = 686081769535
     order.email = customer.email
     order.fulfillment_status = 'fulfilled'
     order.send_receipt = True
     order.send_fulfillment_receipt = True
+    order.suppress_notifications = False
     order.attributes = d
 
     order.save()
