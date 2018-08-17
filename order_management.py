@@ -1,13 +1,21 @@
 import os
 
-from flask import Flask
+from flask import Flask, request
 app = Flask(__name__)
 
-s = os.environ['MY']
 
 @app.route('/')
 def hello_world():
-    return s
+    return ""
+
+@app.route('/orders')
+def orders_manage():
+    if request.method == 'POST':
+        print(request.form)
+        return
+    else:
+        return
+    return ""
 
 if __name__ == '__main__':
     app.run()
