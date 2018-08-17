@@ -70,11 +70,7 @@ def orders_manage():
         user_id = request.form['user_id']
         address1 = request.form['warehouses']
         redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
-
-
-
-        #return redirect("http://www.google.com", code=302)
-        return request.form['towns']
+        return redirect(redirect_url, code=302)
     else:
         return "asdasd"
     return "v"
