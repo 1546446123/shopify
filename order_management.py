@@ -62,9 +62,10 @@ def hello_world():
 
 @app.route('/orders', methods=['POST'])
 def orders_manage():
-    result = None
+    result = "zzzz"
     try:
         if request.method == 'POST':
+            return "dsfsdf"
             first_name = request.form['first_name']
             last_name = request.form['last_name']
             shipping = request.form['shipping']
@@ -75,7 +76,7 @@ def orders_manage():
 
             redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
             result = redirect_url
-    except  Exception as e:
+    except Exception as e:
         result = e.message
     finally:
         return result
