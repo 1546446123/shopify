@@ -12,6 +12,12 @@ shopify.ShopifyResource.set_site(shop_url)
 shop = shopify.Shop.current()
 app = Flask(__name__)
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+  return response
 
 def create_order(first_name, last_name, phone, town, address1, user_id):
     order = shopify.Order()
