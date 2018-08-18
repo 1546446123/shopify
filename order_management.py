@@ -65,8 +65,9 @@ def orders_manage():
     result = "zzzz"
     try:
         if request.method == 'POST':
-            return "dsfsdf"
             first_name = request.form['first_name']
+            result = "first_name"
+            return 
             last_name = request.form['last_name']
             shipping = request.form['shipping']
             tel = request.form['tel']
