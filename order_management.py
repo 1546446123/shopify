@@ -76,7 +76,7 @@ def orders_manage():
             redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
             result = redirect_url
     except  Exception as e:
-        request = e.message
+        result = e.message
     finally:
         return result
 
