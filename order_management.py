@@ -1,6 +1,6 @@
 # coding: utf8
 import shopify
-from flask import Flask, request, redirect
+from flask import Flask, request, redirect, jsonify
 import os
 
 API_KEY = os.environ["API_KEY"]
@@ -51,7 +51,7 @@ def create_order(first_name, last_name, phone, town, address1, user_id):
     #d["user_id"] = 686081769535
     order.email = customer.email
     order.fulfillment_status = 'fulfilled'
-    order.send_receipt = True
+    order.send_receipt = False
     order.send_fulfillment_receipt = False
     order.suppress_notifications = False
 
@@ -65,6 +65,7 @@ def hello_world():
 
 @app.route('/orders', methods=['POST'])
 def orders_manage():
+    error = False
     result = "zzzz"
     try:
         if request.method == 'POST':
@@ -75,13 +76,15 @@ def orders_manage():
             town = request.form['town']
             user_id = request.form['user_id']
             address1 = request.form['warehouses']
-
             redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
             result = redirect_url
     except Exception as e:
+        error = True
         result = e.message
     finally:
-        return result
+        data = {'result': 'error' if error else 'ok',
+                'data': result}
+        return jsonify(data)
 
 
 
