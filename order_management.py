@@ -62,19 +62,25 @@ def hello_world():
 
 @app.route('/orders', methods=['POST'])
 def orders_manage():
-    if request.method == 'POST':
-        first_name = request.form['first_name']
-        last_name = request.form['last_name']
-        shipping = request.form['shipping']
-        tel = request.form['tel']
-        town = request.form['town']
-        user_id = request.form['user_id']
-        address1 = request.form['warehouses']
-        redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
-        return redirect(redirect_url, code=302)
-    else:
-        return "asdasd"
-    return "v"
+    result = None
+    try:
+        if request.method == 'POST':
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            shipping = request.form['shipping']
+            tel = request.form['tel']
+            town = request.form['town']
+            user_id = request.form['user_id']
+            address1 = request.form['warehouses']
+
+            redirect_url = create_order(first_name, last_name, tel, town, address1, user_id)
+            result = redirect_url
+    except  Exception as e:
+        request = e.message
+    finally:
+        return result
+
+
 
 if __name__ == '__main__':
     app.run()
